@@ -7,12 +7,17 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
   constructor(app: cdk.App, id: string) {
     super(app, id);
 
-    const dynamoTable = new dynamodb.Table(this, 'items', {
+    const partitionKeyName = 'uuid'
+    const tableName = 'wangsu'
+
+    const dynamoTable = new dynamodb.Table(this, tableName, {
       partitionKey: {
-        name: 'itemId',
+        name: partitionKeyName,
         type: dynamodb.AttributeType.STRING
       },
-      tableName: 'items',
+      tableName: tableName,
+      readCapacity: 1,
+      writeCapacity: 1,
 
       // The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
       // the new table, and it will remain in your account until manually deleted. By setting the policy to 
@@ -26,7 +31,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_8_10,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: 'itemId'
+        PRIMARY_KEY: partitionKeyName
       }
     });
 
@@ -36,7 +41,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_8_10,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: 'itemId'
+        PRIMARY_KEY: partitionKeyName
       }
     });
 
@@ -46,7 +51,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_8_10,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: 'itemId'
+        PRIMARY_KEY: partitionKeyName
       }
     });
 
@@ -56,7 +61,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_8_10,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: 'itemId'
+        PRIMARY_KEY: partitionKeyName
       }
     });
 
@@ -66,7 +71,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_8_10,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: 'itemId'
+        PRIMARY_KEY: partitionKeyName
       }
     });
     
