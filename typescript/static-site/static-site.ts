@@ -61,7 +61,7 @@ export class StaticSite extends Construct {
                     s3OriginSource: {
                         s3BucketSource: siteBucket
                     },
-                    behaviors : [ {isDefaultBehavior: true}],
+                    behaviors : [ {isDefaultBehavior: false}],
                 }
             ]
         });

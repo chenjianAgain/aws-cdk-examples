@@ -10,20 +10,22 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
     const partitionKeyName = 'uuid'
     const tableName = 'wangsu'
 
+
     const dynamoTable = new dynamodb.Table(this, tableName, {
       partitionKey: {
         name: partitionKeyName,
         type: dynamodb.AttributeType.STRING
       },
       tableName: tableName,
-      readCapacity: 1,
-      writeCapacity: 1,
-
+    
       // The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
       // the new table, and it will remain in your account until manually deleted. By setting the policy to 
       // DESTROY, cdk destroy will delete the table (even if it has data in it)
       removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
     });
+
+    dynamoTable.autoScaleReadCapacity({maxCapacity: 10, minCapacity: 10});
+    dynamoTable.autoScaleWriteCapacity({maxCapacity: 10, minCapacity: 10});
 
     const getOneLambda = new lambda.Function(this, 'getOneItemFunction', {
       code: new lambda.AssetCode('src'),
